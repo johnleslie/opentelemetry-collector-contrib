@@ -46,6 +46,7 @@ The available scrapers are:
 | [load]       | All                          | CPU load metrics                                       |
 | [filesystem] | All                          | File System utilization metrics                        |
 | [memory]     | All                          | Memory utilization metrics                             |
+| [nfs]        | Linux                        | NFS server and client metrics                          |
 | [network]    | All                          | Network interface I/O metrics & TCP connection metrics |
 | [paging]     | All                          | Paging/Swap space utilization and I/O metrics          |
 | [processes]  | Linux, Mac, FreeBSD, OpenBSD | Process count metrics                                  |
@@ -57,6 +58,7 @@ The available scrapers are:
 [filesystem]: ./internal/scraper/filesystemscraper/documentation.md
 [load]: ./internal/scraper/loadscraper/documentation.md
 [memory]: ./internal/scraper/memoryscraper/documentation.md
+[nfs]: ./internal/scraper/nfsscraper/documentation.md
 [network]: ./internal/scraper/networkscraper/documentation.md
 [paging]: ./internal/scraper/pagingscraper/documentation.md
 [processes]: ./internal/scraper/processesscraper/documentation.md

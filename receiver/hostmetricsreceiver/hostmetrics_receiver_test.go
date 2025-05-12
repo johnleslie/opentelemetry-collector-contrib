@@ -28,6 +28,7 @@ import (
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/filesystemscraper"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/loadscraper"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/memoryscraper"
+	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/nfsscraper"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/networkscraper"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/pagingscraper"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/hostmetricsreceiver/internal/scraper/processesscraper"
@@ -64,7 +65,7 @@ var resourceMetrics = []string{
 }
 
 var systemSpecificMetrics = map[string][]string{
-	"linux":   {"system.disk.merged", "system.disk.weighted_io_time", "system.filesystem.inodes.usage", "system.paging.faults", "system.processes.created", "system.processes.count"},
+	"linux":   {"system.disk.merged", "system.disk.weighted_io_time", "system.filesystem.inodes.usage", "system.paging.faults", "system.processes.created", "system.processes.count", "system.nfs.net.count", "system.nfsd.procedure.count"},
 	"darwin":  {"system.filesystem.inodes.usage", "system.paging.faults", "system.processes.count"},
 	"freebsd": {"system.filesystem.inodes.usage", "system.paging.faults", "system.processes.count"},
 	"openbsd": {"system.filesystem.inodes.usage", "system.paging.faults", "system.processes.created", "system.processes.count"},
@@ -85,6 +86,7 @@ func TestGatherMetrics_EndToEnd(t *testing.T) {
 			loadscraper.NewFactory(),
 			memoryscraper.NewFactory(),
 			networkscraper.NewFactory(),
+			nfsscraper.NewFactory(),
 			pagingscraper.NewFactory(),
 			processesscraper.NewFactory(),
 		),
@@ -312,6 +314,15 @@ func Benchmark_ScrapeNetworkMetrics(b *testing.B) {
 	benchmarkScrapeMetrics(b, cfg)
 }
 
+func Benchmark_ScrapeNFSMetrics(b *testing.B) {
+	cfg := &Config{
+		ControllerConfig: scraperhelper.NewDefaultControllerConfig(),
+		Scrapers:         newScrapersConfigs(nfsscraper.NewFactory()),
+	}
+
+	benchmarkScrapeMetrics(b, cfg)
+}
+
 func Benchmark_ScrapeProcessesMetrics(b *testing.B) {
 	cfg := &Config{
 		ControllerConfig: scraperhelper.NewDefaultControllerConfig(),
@@ -366,6 +377,7 @@ func Benchmark_ScrapeSystemMetrics(b *testing.B) {
 			loadscraper.NewFactory(),
 			memoryscraper.NewFactory(),
 			networkscraper.NewFactory(),
+			nfsscraper.NewFactory(),
 			pagingscraper.NewFactory(),
 			processesscraper.NewFactory(),
 		),

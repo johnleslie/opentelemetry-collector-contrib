@@ -9,6 +9,7 @@ receivers:
       cpu:
       load:
       memory:
+      nfs:
       disk:
       filesystem:
       network:
