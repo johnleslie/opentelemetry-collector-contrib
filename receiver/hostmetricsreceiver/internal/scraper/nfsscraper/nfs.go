@@ -62,3 +62,17 @@ type NfsdRpcStats struct {
 	BadAuthCount uint64
 	BadClientCount uint64
 }
+
+type NfsStats struct {
+	NfsNetStats *NfsNetStats
+	NfsRpcStats *NfsRpcStats
+}
+
+type NfsdStats struct {
+	NfsdFhStats *NfsdFhStats
+	NfsdIoStats *NfsdIoStats
+	NfsdNetStats *NfsdNetStats
+	NfsdRepcacheStats *NfsdRepcacheStats
+	NfsdRpcStats *NfsdRpcStats
+	NfsdThreadStats *NfsdThreadStats
+}
